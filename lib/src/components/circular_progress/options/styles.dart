@@ -87,9 +87,12 @@ class CreativeUICircularProgressStyles {
       progressDecoration: progressDecoration ?? this.progressDecoration,
       progressDecorationOpaque:
           progressDecorationOpaque ?? this.progressDecorationOpaque,
-      progressDecorationImage: progressDecorationImage ?? this.progressDecorationImage,
-      progressDecorationFit: progressDecorationFit ?? this.progressDecorationFit,
-      progressDecorationAlignment: progressDecorationAlignment ?? this.progressDecorationAlignment,
+      progressDecorationImage:
+          progressDecorationImage ?? this.progressDecorationImage,
+      progressDecorationFit:
+          progressDecorationFit ?? this.progressDecorationFit,
+      progressDecorationAlignment:
+          progressDecorationAlignment ?? this.progressDecorationAlignment,
     );
   }
 }

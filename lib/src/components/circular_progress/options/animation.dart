@@ -35,6 +35,7 @@ class CreativeUICircularProgressAnimation {
   final Color shimmerColor;
 
   final ShimmerMode shimmerMode;
+
   /// For ShimmerMode.count
   final int shimmerCount;
 
@@ -91,7 +92,8 @@ class CreativeUICircularProgressAnimation {
       progressCurve: progressCurve ?? this.progressCurve,
       indeterminateRotationDuration:
           indeterminateRotationDuration ?? this.indeterminateRotationDuration,
-      indeterminateSpeedCps: indeterminateSpeedCps ?? this.indeterminateSpeedCps,
+      indeterminateSpeedCps:
+          indeterminateSpeedCps ?? this.indeterminateSpeedCps,
       indeterminateMotion: indeterminateMotion ?? this.indeterminateMotion,
       indeterminateSweepFraction:
           indeterminateSweepFraction ?? this.indeterminateSweepFraction,

@@ -18,7 +18,6 @@ export 'src/components/circular_progress/options/option.dart';
 export 'src/components/circular_progress/options/controller.dart';
 export 'src/components/circular_progress/circular_progress_bar.dart';
 
-
 export 'src/components/arc_progress/options/animation.dart';
 export 'src/components/arc_progress/options/behaviour.dart';
 export 'src/components/arc_progress/options/callbacks.dart';

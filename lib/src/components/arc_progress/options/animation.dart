@@ -20,7 +20,7 @@ class CreativeUIArcProgressAnimation {
     this.indeterminateSpeedCps,
   });
 
-   Duration effectiveIndeterminateDuration() {
+  Duration effectiveIndeterminateDuration() {
     if (indeterminateSpeedCps != null && indeterminateSpeedCps! > 0) {
       final ms = (1000 / indeterminateSpeedCps!).round(); // 1 cycle
       return Duration(milliseconds: ms);

@@ -10,7 +10,6 @@ import 'package:creative_ui_progress/src/components/arc_progress/options/option.
 import 'package:creative_ui_progress/src/components/arc_progress/options/styles.dart';
 import 'package:flutter/material.dart';
 
-
 class CreativeUIArcProgress extends StatefulWidget {
   final CreativeUIArcProgressController? controller;
   final CreativeUIArcProgressOptions options;
@@ -53,13 +52,22 @@ class _CreativeUIArcProgressState extends State<CreativeUIArcProgress>
   void initState() {
     super.initState();
 
-    _progressCtrl = AnimationController(vsync: this, duration: a.progressDuration);
+    _progressCtrl = AnimationController(
+      vsync: this,
+      duration: a.progressDuration,
+    );
     _bindProgress(begin: 0, end: 0);
 
-    _indetCtrl = AnimationController(vsync: this, duration: a.indeterminateRotationDuration);
+    _indetCtrl = AnimationController(
+      vsync: this,
+      duration: a.indeterminateRotationDuration,
+    );
     _bindIndeterminateCurve();
 
-    _flashCtrl = AnimationController(vsync: this, duration: e.successFlashDuration);
+    _flashCtrl = AnimationController(
+      vsync: this,
+      duration: e.successFlashDuration,
+    );
     _flashOpacity = CurvedAnimation(parent: _flashCtrl, curve: Curves.easeOut);
 
     // Wire controller commands
@@ -82,7 +90,8 @@ class _CreativeUIArcProgressState extends State<CreativeUIArcProgress>
   void didUpdateWidget(covariant CreativeUIArcProgress oldWidget) {
     super.didUpdateWidget(oldWidget);
 
-    if (oldWidget.controller != widget.controller && widget.controller != null) {
+    if (oldWidget.controller != widget.controller &&
+        widget.controller != null) {
       widget.controller!.play = _cmdPlay;
       widget.controller!.pause = _cmdPause;
       widget.controller!.resume = _cmdResume;
@@ -168,15 +177,21 @@ class _CreativeUIArcProgressState extends State<CreativeUIArcProgress>
   }
 
   double _computeTargetPct(num value, num max, bool loop) {
-    if (max == 0 || value.isNaN || value.isInfinite || max.isNaN || max.isInfinite) return 0.0;
+    if (max == 0 ||
+        value.isNaN ||
+        value.isInfinite ||
+        max.isNaN ||
+        max.isInfinite) {
+      return 0.0;
+    }
     final pct = (value / max).toDouble();
     if (!pct.isFinite) return 0.0;
     return loop ? pct.clamp(0.0, double.infinity) : pct.clamp(0.0, 1.0);
   }
 
-  double _safeUnit(num v) =>
-      (v.isNaN || v.isInfinite) ? 0.0 : v.toDouble().clamp(0.0, double.infinity);
-
+  double _safeUnit(num v) => (v.isNaN || v.isInfinite)
+      ? 0.0
+      : v.toDouble().clamp(0.0, double.infinity);
 
   Future<void> _startProgress(double targetPct, {bool reverse = false}) async {
     if (!mounted || !targetPct.isFinite) return;
@@ -295,10 +310,7 @@ class _CreativeUIArcProgressState extends State<CreativeUIArcProgress>
                   start = s.startAngle + (track - clamped);
                 }
 
-                return _stack(
-                  progressSweep: visibleSweep,
-                  startAngle: start,
-                );
+                return _stack(progressSweep: visibleSweep, startAngle: start);
             }
           },
         ),
@@ -335,10 +347,7 @@ class _CreativeUIArcProgressState extends State<CreativeUIArcProgress>
     return SizedBox(
       width: s.size,
       height: s.size,
-      child: _stack(
-        progressSweep: sweep,
-        startAngle: start,
-      ),
+      child: _stack(progressSweep: sweep, startAngle: start),
     );
   }
 
@@ -352,8 +361,8 @@ class _CreativeUIArcProgressState extends State<CreativeUIArcProgress>
                 strokeWidth: s.strokeWidth,
                 startAngle: startAngle,
                 sweep: progressSweep,
-                color: (e.successFlashColor ?? Colors.white.withOpacity(0.35))
-                    .withOpacity(_flashOpacity.value),
+                color: (e.successFlashColor ?? Colors.white.withValues(alpha:0.35))
+                    .withValues(alpha:_flashOpacity.value),
                 cap: s.strokeCap,
               ),
             ),
@@ -417,8 +426,10 @@ class _ArcTrackPainter extends CustomPainter {
     final rect = Offset.zero & size;
     final r = math.min(rect.width, rect.height) / 2;
     final center = rect.center;
-    final arcRect =
-        Rect.fromCircle(center: center, radius: r - strokeWidth / 2);
+    final arcRect = Rect.fromCircle(
+      center: center,
+      radius: r - strokeWidth / 2,
+    );
 
     final paint = Paint()
       ..color = color
@@ -460,8 +471,10 @@ class _ArcPainter extends CustomPainter {
     final rect = Offset.zero & size;
     final r = math.min(rect.width, rect.height) / 2;
     final center = rect.center;
-    final arcRect =
-        Rect.fromCircle(center: center, radius: r - strokeWidth / 2);
+    final arcRect = Rect.fromCircle(
+      center: center,
+      radius: r - strokeWidth / 2,
+    );
 
     final paint = Paint()
       ..style = PaintingStyle.stroke
@@ -509,8 +522,10 @@ class _ArcFlashPainter extends CustomPainter {
     final rect = Offset.zero & size;
     final r = math.min(rect.width, rect.height) / 2;
     final center = rect.center;
-    final arcRect =
-        Rect.fromCircle(center: center, radius: r - strokeWidth / 2);
+    final arcRect = Rect.fromCircle(
+      center: center,
+      radius: r - strokeWidth / 2,
+    );
 
     final paint = Paint()
       ..style = PaintingStyle.stroke

@@ -15,10 +15,9 @@ class CreativeUIProgressEffects {
     bool? successFlashEnabled,
     Color? successFlashColor,
     Duration? successFlashDuration,
-  }) =>
-      CreativeUIProgressEffects(
-        successFlashEnabled: successFlashEnabled ?? this.successFlashEnabled,
-        successFlashColor: successFlashColor ?? this.successFlashColor,
-        successFlashDuration: successFlashDuration ?? this.successFlashDuration,
-      );
+  }) => CreativeUIProgressEffects(
+    successFlashEnabled: successFlashEnabled ?? this.successFlashEnabled,
+    successFlashColor: successFlashColor ?? this.successFlashColor,
+    successFlashDuration: successFlashDuration ?? this.successFlashDuration,
+  );
 }

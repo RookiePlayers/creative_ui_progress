@@ -48,6 +48,7 @@ class CreativeUIProgressBarAnimation {
   final Color shimmerColor;
 
   final ShimmerMode shimmerMode;
+
   /// For ShimmerMode.count
   final int shimmerCount;
 
@@ -72,7 +73,6 @@ class CreativeUIProgressBarAnimation {
     this.shimmerWidthFraction = 0.35,
     this.shimmerColor = const Color(0xFFFFFFFF),
     this.shimmerOpacity = 0.7,
-
   });
 
   /// Calculates effective duration for indeterminate motion based on [indeterminateSpeedCps].
@@ -106,10 +106,13 @@ class CreativeUIProgressBarAnimation {
     return CreativeUIProgressBarAnimation(
       progressDuration: progressDuration ?? this.progressDuration,
       progressCurve: progressCurve ?? this.progressCurve,
-      indeterminateDuration: indeterminateDuration ?? this.indeterminateDuration,
-      indeterminateSpeedCps: indeterminateSpeedCps ?? this.indeterminateSpeedCps,
+      indeterminateDuration:
+          indeterminateDuration ?? this.indeterminateDuration,
+      indeterminateSpeedCps:
+          indeterminateSpeedCps ?? this.indeterminateSpeedCps,
       indeterminateMotion: indeterminateMotion ?? this.indeterminateMotion,
-      indeterminateHeadFraction: indeterminateHeadFraction ?? this.indeterminateHeadFraction,
+      indeterminateHeadFraction:
+          indeterminateHeadFraction ?? this.indeterminateHeadFraction,
       shimmerEnabled: shimmerEnabled ?? this.shimmerEnabled,
       shimmerDuration: shimmerDuration ?? this.shimmerDuration,
       shimmerWidthFraction: shimmerWidthFraction ?? this.shimmerWidthFraction,

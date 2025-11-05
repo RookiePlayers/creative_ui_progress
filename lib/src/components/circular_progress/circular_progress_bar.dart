@@ -11,7 +11,6 @@ import 'package:creative_ui_progress/src/components/circular_progress/options/ef
 import 'package:creative_ui_progress/src/components/circular_progress/options/option.dart';
 import 'package:creative_ui_progress/src/components/circular_progress/options/styles.dart';
 
-
 class CreativeUICircularProgress extends StatefulWidget {
   final CreativeUICircularProgressOptions options;
   final CreativeUICircularProgressController? controller;
@@ -26,6 +25,7 @@ class CreativeUICircularProgress extends StatefulWidget {
   State<CreativeUICircularProgress> createState() =>
       _CreativeUICircularProgressState();
 }
+
 class _CreativeUICircularProgressState extends State<CreativeUICircularProgress>
     with TickerProviderStateMixin {
   // Determinate
@@ -66,7 +66,10 @@ class _CreativeUICircularProgressState extends State<CreativeUICircularProgress>
   void initState() {
     super.initState();
 
-    _progressCtrl = AnimationController(vsync: this, duration: a.progressDuration);
+    _progressCtrl = AnimationController(
+      vsync: this,
+      duration: a.progressDuration,
+    );
     _bindProgress(begin: 0, end: 0);
 
     _indetCtrl = AnimationController(
@@ -76,49 +79,56 @@ class _CreativeUICircularProgressState extends State<CreativeUICircularProgress>
     _bindIndeterminateCurve();
 
     if (a.shimmerEnabled) {
-      _shimmerCtrl = AnimationController(vsync: this, duration: a.shimmerDuration)..repeat();
-      _shimmerPos = CurvedAnimation(parent: _shimmerCtrl!, curve: a.shimmerCurve)
-        ..addListener(() {
-          if (mounted) setState(() {});
-        })
-  ..addStatusListener((status) async {
-    if (status == AnimationStatus.completed) {
-      // One cycle done
-      _shimmerPlayed++;
+      _shimmerCtrl = AnimationController(
+        vsync: this,
+        duration: a.shimmerDuration,
+      )..repeat();
+      _shimmerPos =
+          CurvedAnimation(parent: _shimmerCtrl!, curve: a.shimmerCurve)
+            ..addListener(() {
+              if (mounted) setState(() {});
+            })
+            ..addStatusListener((status) async {
+              if (status == AnimationStatus.completed) {
+                // One cycle done
+                _shimmerPlayed++;
 
-      switch (a.shimmerMode) {
-        case ShimmerMode.never:
-          _shimmerCtrl?.stop();
-          break;
-        case ShimmerMode.once:
-          _shimmerCtrl?.stop();
-          break;
-        case ShimmerMode.count:
-          if (_shimmerPlayed >= a.shimmerCount) {
-            _shimmerCtrl?.stop();
-          } else {
-            await Future.delayed(a.shimmerPause);
-            if (mounted) _shimmerCtrl?.forward(from: 0);
-          }
-          break;
-        case ShimmerMode.periodic:
-          await Future.delayed(a.shimmerPause);
-          if (mounted) _shimmerCtrl?.forward(from: 0);
-          break;
-        case ShimmerMode.continuous:
-          _shimmerCtrl?.forward(from: 0);
-          break;
+                switch (a.shimmerMode) {
+                  case ShimmerMode.never:
+                    _shimmerCtrl?.stop();
+                    break;
+                  case ShimmerMode.once:
+                    _shimmerCtrl?.stop();
+                    break;
+                  case ShimmerMode.count:
+                    if (_shimmerPlayed >= a.shimmerCount) {
+                      _shimmerCtrl?.stop();
+                    } else {
+                      await Future.delayed(a.shimmerPause);
+                      if (mounted) _shimmerCtrl?.forward(from: 0);
+                    }
+                    break;
+                  case ShimmerMode.periodic:
+                    await Future.delayed(a.shimmerPause);
+                    if (mounted) _shimmerCtrl?.forward(from: 0);
+                    break;
+                  case ShimmerMode.continuous:
+                    _shimmerCtrl?.forward(from: 0);
+                    break;
+                }
+              }
+            });
+      // Start shimmer according to mode (no eager repeat)
+      if (a.shimmerMode != ShimmerMode.never) {
+        _shimmerPlayed = 0;
+        _shimmerCtrl!.forward(from: 0);
       }
     }
-  });
-   // Start shimmer according to mode (no eager repeat)
-  if (a.shimmerMode != ShimmerMode.never) {
-    _shimmerPlayed = 0;
-    _shimmerCtrl!.forward(from: 0);
-  }
-    }
 
-    _flashCtrl = AnimationController(vsync: this, duration: e.successFlashDuration);
+    _flashCtrl = AnimationController(
+      vsync: this,
+      duration: e.successFlashDuration,
+    );
     _flashOpacity = CurvedAnimation(parent: _flashCtrl, curve: Curves.easeOut);
 
     if (widget.controller != null) {
@@ -158,13 +168,17 @@ class _CreativeUICircularProgressState extends State<CreativeUICircularProgress>
     _bindIndeterminateCurve();
 
     // Shimmer enable/disable + duration updates
-  if (a.shimmerEnabled) {
+    if (a.shimmerEnabled) {
       if (_shimmerCtrl == null) {
-        _shimmerCtrl = AnimationController(vsync: this, duration: a.shimmerDuration);
-        _shimmerPos = CurvedAnimation(parent: _shimmerCtrl!, curve: a.shimmerCurve)
-          ..addListener(() {
-            if (mounted) setState(() {});
-          });
+        _shimmerCtrl = AnimationController(
+          vsync: this,
+          duration: a.shimmerDuration,
+        );
+        _shimmerPos =
+            CurvedAnimation(parent: _shimmerCtrl!, curve: a.shimmerCurve)
+              ..addListener(() {
+                if (mounted) setState(() {});
+              });
       }
       _shimmerCtrl!.duration = a.shimmerDuration;
 
@@ -182,11 +196,14 @@ class _CreativeUICircularProgressState extends State<CreativeUICircularProgress>
     }
 
     // Re-resolve image if provider changed
-    if (oldWidget.options.styles.progressDecorationImage != s.progressDecorationImage) {
+    if (oldWidget.options.styles.progressDecorationImage !=
+        s.progressDecorationImage) {
       if (_resolvedOnce) {
         _resolveDecorationImage();
       } else {
-        WidgetsBinding.instance.addPostFrameCallback((_) => _resolveDecorationImage());
+        WidgetsBinding.instance.addPostFrameCallback(
+          (_) => _resolveDecorationImage(),
+        );
       }
     }
 
@@ -199,7 +216,8 @@ class _CreativeUICircularProgressState extends State<CreativeUICircularProgress>
     _maybeStartIndeterminate();
 
     // Rebind controller callbacks if controller instance changed
-    if (oldWidget.controller != widget.controller && widget.controller != null) {
+    if (oldWidget.controller != widget.controller &&
+        widget.controller != null) {
       widget.controller!.play = _cmdPlay;
       widget.controller!.pause = _cmdPause;
       widget.controller!.resume = _cmdResume;
@@ -274,7 +292,13 @@ class _CreativeUICircularProgressState extends State<CreativeUICircularProgress>
   }
 
   double _computeTargetPct(num value, num max, bool loop) {
-    if (max == 0 || value.isNaN || value.isInfinite || max.isNaN || max.isInfinite) return 0.0;
+    if (max == 0 ||
+        value.isNaN ||
+        value.isInfinite ||
+        max.isNaN ||
+        max.isInfinite) {
+      return 0.0;
+    }
     final pct = (value / max).toDouble();
     if (!pct.isFinite) return 0.0;
     return loop ? pct.clamp(0.0, double.infinity) : pct.clamp(0.0, 1.0);
@@ -408,10 +432,7 @@ class _CreativeUICircularProgressState extends State<CreativeUICircularProgress>
                 break;
             }
 
-            return _buildStack(
-              progressSweep: sweep,
-              startAngleOverride: start,
-            );
+            return _buildStack(progressSweep: sweep, startAngleOverride: start);
           },
         ),
       );
@@ -431,10 +452,7 @@ class _CreativeUICircularProgressState extends State<CreativeUICircularProgress>
     return SizedBox(
       width: s.size,
       height: s.size,
-      child: _buildStack(
-        progressSweep: sweep,
-        startAngleOverride: start,
-      ),
+      child: _buildStack(progressSweep: sweep, startAngleOverride: start),
     );
   }
 
@@ -467,8 +485,10 @@ class _CreativeUICircularProgressState extends State<CreativeUICircularProgress>
             builder: (_, __) => Container(
               decoration: BoxDecoration(
                 shape: BoxShape.circle,
-                color: (e.successFlashColor ?? Colors.white.withValues(alpha:0.35))
-                    .withValues(alpha:_flashOpacity.value),
+                color:
+                    (e.successFlashColor ??
+                            Colors.white.withValues(alpha: 0.35))
+                        .withValues(alpha: _flashOpacity.value),
               ),
             ),
           )
@@ -501,32 +521,7 @@ class _CreativeUICircularProgressState extends State<CreativeUICircularProgress>
         ),
 
         // Progress decoration image (clipped to the arc)
-       if (_decorImage != null && s.progressDecorationOpaque)
-        CustomPaint(
-          size: Size(s.size, s.size),
-          painter: _ArcImagePainter(
-            image: _decorImage!,
-            strokeWidth: s.strokeWidth,
-            cap: s.strokeCap,
-            startAngle: startAngleOverride,
-            sweep: progressSweep,
-          ),
-        )
-      else ...[
-        // Base arc (color/gradient)
-        CustomPaint(
-          size: Size(s.size, s.size),
-          painter: _ArcPainter(
-            strokeWidth: s.strokeWidth,
-            cap: s.strokeCap,
-            startAngle: startAngleOverride,
-            sweep: progressSweep,
-            color: s.progressColor ?? Colors.blue,
-            gradient: s.progressGradient,
-          ),
-        ),
-        // If image provided but not opaque, overlay it for a blended look
-        if (_decorImage != null)
+        if (_decorImage != null && s.progressDecorationOpaque)
           CustomPaint(
             size: Size(s.size, s.size),
             painter: _ArcImagePainter(
@@ -536,8 +531,33 @@ class _CreativeUICircularProgressState extends State<CreativeUICircularProgress>
               startAngle: startAngleOverride,
               sweep: progressSweep,
             ),
+          )
+        else ...[
+          // Base arc (color/gradient)
+          CustomPaint(
+            size: Size(s.size, s.size),
+            painter: _ArcPainter(
+              strokeWidth: s.strokeWidth,
+              cap: s.strokeCap,
+              startAngle: startAngleOverride,
+              sweep: progressSweep,
+              color: s.progressColor ?? Colors.blue,
+              gradient: s.progressGradient,
+            ),
           ),
-      ],
+          // If image provided but not opaque, overlay it for a blended look
+          if (_decorImage != null)
+            CustomPaint(
+              size: Size(s.size, s.size),
+              painter: _ArcImagePainter(
+                image: _decorImage!,
+                strokeWidth: s.strokeWidth,
+                cap: s.strokeCap,
+                startAngle: startAngleOverride,
+                sweep: progressSweep,
+              ),
+            ),
+        ],
 
         // Shimmer overlay (optional)
         if (a.shimmerEnabled && _shimmerPos != null)
@@ -555,7 +575,9 @@ class _CreativeUICircularProgressState extends State<CreativeUICircularProgress>
 
         if (s.center != null) s.center!,
 
-        Positioned.fill(child: IgnorePointer(ignoring: true, child: flashLayer)),
+        Positioned.fill(
+          child: IgnorePointer(ignoring: true, child: flashLayer),
+        ),
       ],
     );
   }
@@ -616,7 +638,10 @@ class _ArcPainter extends CustomPainter {
     final Rect rect = Offset.zero & size;
     final r = math.min(rect.width, rect.height) / 2;
     final center = rect.center;
-    final arcRect = Rect.fromCircle(center: center, radius: r - strokeWidth / 2);
+    final arcRect = Rect.fromCircle(
+      center: center,
+      radius: r - strokeWidth / 2,
+    );
 
     final paint = Paint()
       ..style = PaintingStyle.stroke
@@ -663,29 +688,41 @@ class _ArcImagePainter extends CustomPainter {
     if (sweep == 0) return;
 
     final rect = Offset.zero & size;
-    final rOuter = math.min(rect.width, rect.height) / 2;      // outer radius
-    final rInner = (rOuter - strokeWidth).clamp(0.0, rOuter);  // inner radius
+    final rOuter = math.min(rect.width, rect.height) / 2; // outer radius
+    final rInner = (rOuter - strokeWidth).clamp(0.0, rOuter); // inner radius
     final center = rect.center;
 
     // Build annular sector (ring slice) path bounded by [rInner..rOuter], from startAngle..startAngle+sweep
     Path ringSlice(Rect outer, Rect inner, double start, double sw) {
       // Points at the arc ends
-      Offset polar(double radius, double ang) =>
-          Offset(center.dx + radius * math.cos(ang), center.dy + radius * math.sin(ang));
+      Offset polar(double radius, double ang) => Offset(
+        center.dx + radius * math.cos(ang),
+        center.dy + radius * math.sin(ang),
+      );
 
       final startOuter = polar(rOuter, start);
       // final endOuter   = polar(rOuter, start + sw);
       // final startInner = polar(rInner, start);
-      final endInner   = polar(rInner, start + sw);
+      final endInner = polar(rInner, start + sw);
 
       final path = Path()
         ..moveTo(startOuter.dx, startOuter.dy)
         // Outer arc (sweep forward)
-        ..arcTo(Rect.fromCircle(center: center, radius: rOuter), start, sw, false)
+        ..arcTo(
+          Rect.fromCircle(center: center, radius: rOuter),
+          start,
+          sw,
+          false,
+        )
         // Connect outer end to inner end
         ..lineTo(endInner.dx, endInner.dy)
         // Inner arc (sweep back)
-        ..arcTo(Rect.fromCircle(center: center, radius: rInner), start + sw, -sw, false)
+        ..arcTo(
+          Rect.fromCircle(center: center, radius: rInner),
+          start + sw,
+          -sw,
+          false,
+        )
         // Close back to startOuter
         ..close();
 
@@ -730,7 +767,9 @@ class _ArcImagePainter extends CustomPainter {
       old.strokeWidth != strokeWidth ||
       old.startAngle != startAngle ||
       old.sweep != sweep;
-}/// Simple shimmering band that runs along the current arc sweep.
+}
+
+/// Simple shimmering band that runs along the current arc sweep.
 class _ShimmerArcPainter extends CustomPainter {
   final double strokeWidth;
   final double startAngle;
@@ -755,7 +794,10 @@ class _ShimmerArcPainter extends CustomPainter {
     final rect = Offset.zero & size;
     final r = math.min(rect.width, rect.height) / 2;
     final center = rect.center;
-    final arcRect = Rect.fromCircle(center: center, radius: r - strokeWidth / 2);
+    final arcRect = Rect.fromCircle(
+      center: center,
+      radius: r - strokeWidth / 2,
+    );
 
     // Total angular length of the current progress sweep (always positive).
     final total = sweep.abs();
@@ -780,15 +822,15 @@ class _ShimmerArcPainter extends CustomPainter {
       // Gradient aligned to this small segment so the highlight peaks in the middle.
       final segEnd = segStart + signedLen;
       final gStart = dir > 0 ? segStart : segEnd;
-      final gEnd   = dir > 0 ? segEnd   : segStart;
+      final gEnd = dir > 0 ? segEnd : segStart;
 
       final shader = SweepGradient(
         startAngle: gStart,
         endAngle: gEnd,
         colors: [
-          color.withValues(alpha:0.0),
-          color.withValues(alpha:0.85),
-          color.withValues(alpha:0.0),
+          color.withValues(alpha: 0.0),
+          color.withValues(alpha: 0.85),
+          color.withValues(alpha: 0.0),
         ],
         stops: const [0.15, 0.5, 0.85],
         tileMode: TileMode.decal,
@@ -812,6 +854,7 @@ class _ShimmerArcPainter extends CustomPainter {
       drawSegment(0, secondLen);
     }
   }
+
   @override
   bool shouldRepaint(covariant _ShimmerArcPainter old) =>
       old.strokeWidth != strokeWidth ||

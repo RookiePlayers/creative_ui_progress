@@ -53,20 +53,29 @@ class _CreativeUIProgressBarState extends State<CreativeUIProgressBar>
   void initState() {
     super.initState();
 
-    _progressCtrl =
-        AnimationController(vsync: this, duration: a.progressDuration);
+    _progressCtrl = AnimationController(
+      vsync: this,
+      duration: a.progressDuration,
+    );
     _bindProgress(begin: 0, end: 0);
 
-    _indetCtrl =
-        AnimationController(vsync: this, duration: a.effectiveIndeterminateDuration());
+    _indetCtrl = AnimationController(
+      vsync: this,
+      duration: a.effectiveIndeterminateDuration(),
+    );
     _bindIndeterminateCurve();
 
-    _flashCtrl =
-        AnimationController(vsync: this, duration: e.successFlashDuration);
+    _flashCtrl = AnimationController(
+      vsync: this,
+      duration: e.successFlashDuration,
+    );
     _flashOpacity = CurvedAnimation(parent: _flashCtrl, curve: Curves.easeOut);
 
     // Shimmer setup
-    _shimmerCtrl = AnimationController(vsync: this, duration: a.shimmerDuration);
+    _shimmerCtrl = AnimationController(
+      vsync: this,
+      duration: a.shimmerDuration,
+    );
     _shimmerPos = CurvedAnimation(parent: _shimmerCtrl, curve: a.shimmerCurve);
 
     if (widget.controller != null) {
@@ -89,7 +98,8 @@ class _CreativeUIProgressBarState extends State<CreativeUIProgressBar>
   void didUpdateWidget(covariant CreativeUIProgressBar oldWidget) {
     super.didUpdateWidget(oldWidget);
 
-    if (oldWidget.controller != widget.controller && widget.controller != null) {
+    if (oldWidget.controller != widget.controller &&
+        widget.controller != null) {
       widget.controller!.play = _cmdPlay;
       widget.controller!.pause = _cmdPause;
       widget.controller!.resume = _cmdResume;
@@ -144,14 +154,21 @@ class _CreativeUIProgressBarState extends State<CreativeUIProgressBar>
   }
 
   double _computeTargetPct(num value, num max, bool loop) {
-    if (max == 0 || value.isNaN || value.isInfinite || max.isNaN || max.isInfinite) return 0.0;
+    if (max == 0 ||
+        value.isNaN ||
+        value.isInfinite ||
+        max.isNaN ||
+        max.isInfinite) {
+      return 0.0;
+    }
     final pct = (value / max).toDouble();
     if (!pct.isFinite) return 0.0;
     return loop ? pct.clamp(0.0, double.infinity) : pct.clamp(0.0, 1.0);
   }
 
-  double _safeUnit(num v) =>
-      (v.isNaN || v.isInfinite) ? 0.0 : v.toDouble().clamp(0.0, double.infinity);
+  double _safeUnit(num v) => (v.isNaN || v.isInfinite)
+      ? 0.0
+      : v.toDouble().clamp(0.0, double.infinity);
 
   Future<void> _startProgress(double targetPct, {bool reverse = false}) async {
     if (!mounted || !targetPct.isFinite) return;
@@ -297,8 +314,10 @@ class _CreativeUIProgressBarState extends State<CreativeUIProgressBar>
                   builder: (_, __) => IgnorePointer(
                     ignoring: true,
                     child: Container(
-                      color: (e.successFlashColor ?? Colors.white.withValues(alpha:0.3))
-                          .withValues(alpha:_flashOpacity.value),
+                      color:
+                          (e.successFlashColor ??
+                                  Colors.white.withValues(alpha: 0.3))
+                              .withValues(alpha: _flashOpacity.value),
                     ),
                   ),
                 ),
@@ -318,34 +337,35 @@ class _CreativeUIProgressBarState extends State<CreativeUIProgressBar>
     );
   }
 
-Widget _buildForeground() {
-  return ClipRRect(
-    borderRadius: BorderRadius.circular(s.borderRadius),
-    child: Stack(
-      children: [
-        // Base fill color or border
-        Container(
-          decoration: BoxDecoration(
-            color: s.progressColor ?? Colors.blue,
-            border: s.progressBorder,
-          ),
-        ),
-
-        // Decoration (e.g. image, gradient, glow) stretched to fit
-        if (s.progressDecoration != null)
-          Positioned.fill(
-            child: IgnorePointer(
-              child: FittedBox(
-                fit: BoxFit.cover, // or BoxFit.fill if you prefer no aspect ratio
-                alignment: Alignment.center,
-                child: s.progressDecoration!,
-              ),
+  Widget _buildForeground() {
+    return ClipRRect(
+      borderRadius: BorderRadius.circular(s.borderRadius),
+      child: Stack(
+        children: [
+          // Base fill color or border
+          Container(
+            decoration: BoxDecoration(
+              color: s.progressColor ?? Colors.blue,
+              border: s.progressBorder,
             ),
           ),
-      ],
-    ),
-  );
-}
+
+          // Decoration (e.g. image, gradient, glow) stretched to fit
+          if (s.progressDecoration != null)
+            Positioned.fill(
+              child: IgnorePointer(
+                child: FittedBox(
+                  fit: BoxFit
+                      .cover, // or BoxFit.fill if you prefer no aspect ratio
+                  alignment: Alignment.center,
+                  child: s.progressDecoration!,
+                ),
+              ),
+            ),
+        ],
+      ),
+    );
+  }
 
   /// Foreground + optional shimmer overlay (determinate mode).
   Widget _buildForegroundWithOptionalShimmer() {
@@ -381,9 +401,9 @@ Widget _buildForeground() {
                             begin: Alignment.centerLeft,
                             end: Alignment.centerRight,
                             colors: [
-                              a.shimmerColor.withValues(alpha:0.0),
-                              a.shimmerColor.withValues(alpha:0.6),
-                              a.shimmerColor.withValues(alpha:0.0),
+                              a.shimmerColor.withValues(alpha: 0.0),
+                              a.shimmerColor.withValues(alpha: 0.6),
+                              a.shimmerColor.withValues(alpha: 0.0),
                             ],
                             stops: [0.0, 0.5, 1.0],
                           ),
@@ -454,7 +474,7 @@ Widget _buildForeground() {
             break;
         }
 
-        final offset = t * total;            // 0..(1+head)
+        final offset = t * total; // 0..(1+head)
         final clamped = offset.clamp(0.0, 1.0);
         final visible = (1.0 - offset).clamp(0.0, head);
 
@@ -477,25 +497,29 @@ Widget _buildForeground() {
     final segWidth = (endPx - startPx).clamp(0.0, s.width);
 
     if (s.progressDirection == ProgressDirection.ltr) {
-      return Stack(children: [
-        Positioned(
-          left: startPx,
-          width: segWidth,
-          top: 0,
-          bottom: 0,
-          child: _buildForeground(),
-        ),
-      ]);
+      return Stack(
+        children: [
+          Positioned(
+            left: startPx,
+            width: segWidth,
+            top: 0,
+            bottom: 0,
+            child: _buildForeground(),
+          ),
+        ],
+      );
     } else {
-      return Stack(children: [
-        Positioned(
-          right: startPx,
-          width: segWidth,
-          top: 0,
-          bottom: 0,
-          child: _buildForeground(),
-        ),
-      ]);
+      return Stack(
+        children: [
+          Positioned(
+            right: startPx,
+            width: segWidth,
+            top: 0,
+            bottom: 0,
+            child: _buildForeground(),
+          ),
+        ],
+      );
     }
   }
 }

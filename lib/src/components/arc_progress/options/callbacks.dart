@@ -1,5 +1,3 @@
-
-
 import 'package:creative_ui_progress/src/components/linear_progress/options/callbacks.dart';
 
 class CreativeUIArcProgressCallbacks {

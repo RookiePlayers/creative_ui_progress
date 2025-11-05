@@ -1,5 +1,3 @@
-
-
 import 'package:creative_ui_progress/src/components/linear_progress/options/animation.dart';
 import 'package:creative_ui_progress/src/components/linear_progress/options/behaviour.dart';
 import 'package:creative_ui_progress/src/components/linear_progress/options/callbacks.dart';
@@ -27,12 +25,11 @@ class CreativeUIProgressBarOptions {
     CreativeUIProgressBarAnimation? animation,
     CreativeUIProgressEffects? effects,
     CreativeUIProgressBarCallbacks? callbacks,
-  }) =>
-      CreativeUIProgressBarOptions(
-        styles: styles,
-        behavior: behavior ?? this.behavior,
-        animation: animation ?? this.animation,
-        effects: effects ?? this.effects,
-        callbacks: callbacks ?? this.callbacks,
-      );
+  }) => CreativeUIProgressBarOptions(
+    styles: styles,
+    behavior: behavior ?? this.behavior,
+    animation: animation ?? this.animation,
+    effects: effects ?? this.effects,
+    callbacks: callbacks ?? this.callbacks,
+  );
 }
