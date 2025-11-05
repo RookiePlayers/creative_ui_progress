@@ -7,9 +7,16 @@
 [![Platforms](https://img.shields.io/badge/platforms-android%20|%20ios%20|%20web%20|%20macos%20|%20windows%20|%20linux-blue)](#)
 [![Build](https://github.com/RookiePlayers/creative_ui_progress/actions/workflows/ci.yml/badge.svg)](https://github.com/RookiePlayers/creative_ui_progress/actions)
 [![codecov](https://codecov.io/gh/RookiePlayers/creative_ui_progress/branch/main/graph/badge.svg)](https://codecov.io/gh/RookiePlayers/creative_ui_progress)
+
 # Creative UI Progress
 
 Beautiful, animated, and highly customizable progress indicators for Flutter — linear, circular, and arc.
+
+---
+## Screenshots
+<img width="1197" height="892" alt="Screen Shot 2025-11-05 at 16 15 23 p m" src="https://github.com/user-attachments/assets/2bcb05c7-efd7-45c0-ae04-232a02522598" />
+<img width="1192" height="888" alt="Screen Shot 2025-11-05 at 16 15 31 p m" src="https://github.com/user-attachments/assets/64c62bd9-bbda-421a-a686-32a56c02c96b" />
+<img width="1196" height="888" alt="Screen Shot 2025-11-05 at 16 15 38 p m" src="https://github.com/user-attachments/assets/9109d329-ac79-4a58-9697-20fe26cdc5e4" />
 
 ---
 
