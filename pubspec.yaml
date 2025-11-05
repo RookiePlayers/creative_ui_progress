@@ -1,6 +1,6 @@
 name: creative_ui_progress
 description: "A Flutter package providing beautiful, animated, and highly customizable progress indicators."
-version: 0.1.0
+version: 0.1.1
 homepage: "https://github.com/RookiePlayers/creative_ui_progress.git"
 
 environment:
